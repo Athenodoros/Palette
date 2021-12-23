@@ -1,12 +1,12 @@
 import * as Phaser from "phaser";
-import { DemoScene } from "./scene";
+import { LevelScene } from "./scene";
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
   parent: "app",
-  scene: [DemoScene],
+  scene: [LevelScene],
   physics: {
     default: "arcade",
     arcade: {
