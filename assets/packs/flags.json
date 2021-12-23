@@ -1,0 +1,275 @@
+{
+	"frames": {
+		"doubleFlagBlue.png": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagBlue2.png": {
+			"frame": {
+				"x": 73,
+				"y": 1,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagBlueHanging.png": {
+			"frame": {
+				"x": 145,
+				"y": 1,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagGreen.png": {
+			"frame": {
+				"x": 217,
+				"y": 1,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagGreen2.png": {
+			"frame": {
+				"x": 289,
+				"y": 1,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagGreenHanging.png": {
+			"frame": {
+				"x": 1,
+				"y": 143,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagPole.png": {
+			"frame": {
+				"x": 73,
+				"y": 143,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagRed.png": {
+			"frame": {
+				"x": 145,
+				"y": 143,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagRed2.png": {
+			"frame": {
+				"x": 217,
+				"y": 143,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagRedHanging.png": {
+			"frame": {
+				"x": 289,
+				"y": 143,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagYellow.png": {
+			"frame": {
+				"x": 361,
+				"y": 1,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagYellow2.png": {
+			"frame": {
+				"x": 361,
+				"y": 143,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		},
+		"doubleFlagYellowHanging.png": {
+			"frame": {
+				"x": 1,
+				"y": 285,
+				"w": 70,
+				"h": 140
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 140
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 140
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 432,
+			"h": 426
+		},
+		"scale": "1"
+	}
+}
