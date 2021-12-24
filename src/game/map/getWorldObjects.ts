@@ -63,7 +63,8 @@ export const getWorldObjects = (
             entry.pixelY + map.tileHeight / 2 + 1,
             tileset.name,
             index
-          );
+          ) as Phaser.Types.Physics.Arcade.SpriteWithStaticBody;
+          game_object.setData(type);
 
           if (type.type === OBJECT_TYPE.PLATFORM) game_object.body.height = 1;
         }

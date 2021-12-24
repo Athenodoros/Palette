@@ -25,9 +25,10 @@ export const addCollisionDefinitions = (
   );
 
   // Gem Pickups
-  physics.add.overlap(player, objects[OBJECT_TYPE.GEM], (_, gem) =>
-    gem.destroy()
-  );
+  physics.add.overlap(player, objects[OBJECT_TYPE.GEM], (_player, gem) => {
+    _player.data.set("colour", gem.data.get("colour"));
+    gem.destroy();
+  });
 
   // Key Pickups
   physics.add.overlap(player, objects[OBJECT_TYPE.KEY], (_, key) =>

@@ -1,5 +1,5 @@
 import { addCollisionDefinitions, getWorldObjects } from "./map";
-import { PLAYER_JUMP_STATE } from "./types";
+import { PLAYER_COLOUR, PLAYER_COLOURS, PLAYER_JUMP_STATE } from "./types";
 
 export class LevelScene extends Phaser.Scene {
   public map!: Phaser.Tilemaps.Tilemap;
@@ -36,28 +36,31 @@ export class LevelScene extends Phaser.Scene {
   }
 
   create(): void {
-    // The sprite's position changes if these aren't all the same size, causing flickering of the state
-    // I think it should be fixed by player.setOrigin, but no permutation of inputs seems to work
-    this.anims.create({
-      key: "greenWalk",
-      frames: [...Array(11)].map((_, i) => ({
-        key: "player",
-        frame: `p1_walk${(i + 1 + "").padStart(2, "0")}.png`,
-      })),
-      frameRate: 12,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: "greenStand",
-      frames: [{ key: "player", frame: "p1_walk10.png" }],
-    });
-    this.anims.create({
-      key: "greenJump",
-      frames: [{ key: "player", frame: "p1_walk04.png" }],
-    });
-    this.anims.create({
-      key: "greenFall",
-      frames: [{ key: "player", frame: "p1_walk03.png" }],
+    Object.values(PLAYER_COLOURS).forEach((colour) => {
+      // The sprite's position changes if these aren't all the same size, causing flickering of the state
+      // I think it should be fixed by player.setOrigin, but no permutation of inputs seems to work
+
+      this.anims.create({
+        key: colour + "Walk",
+        frames: [...Array(11)].map((_, i) => ({
+          key: "player",
+          frame: `${colour}_walk${(i + 1 + "").padStart(2, "0")}.png`,
+        })),
+        frameRate: 12,
+        repeat: -1,
+      });
+      this.anims.create({
+        key: colour + "Stand",
+        frames: [{ key: "player", frame: colour + "_walk10.png" }],
+      });
+      this.anims.create({
+        key: colour + "Jump",
+        frames: [{ key: "player", frame: colour + "_walk04.png" }],
+      });
+      this.anims.create({
+        key: colour + "Fall",
+        frames: [{ key: "player", frame: colour + "_walk03.png" }],
+      });
     });
 
     this.map = this.make.tilemap({ key: "level1" });
@@ -83,7 +86,7 @@ export class LevelScene extends Phaser.Scene {
     this.physics.world.bounds.width = width;
     this.physics.world.bounds.height = height;
 
-    Object.assign(window, { player, map: this.map });
+    Object.assign(window, { player, map: this.map, scene: this });
   }
 
   update(): void {
@@ -102,13 +105,17 @@ export class LevelScene extends Phaser.Scene {
       this.player.setVelocityX(0);
     }
 
-    if (this.player.getData("state") === PLAYER_JUMP_STATE.JUMPED)
-      this.player.play("greenJump", true);
-    else if (this.player.body.velocity.y > 10)
-      this.player.play("greenFall", true);
-    else if (this.player.body.velocity.x !== 0)
-      this.player.play("greenWalk", true);
-    else this.player.play("greenStand", true);
+    this.player.play(
+      PLAYER_COLOURS[this.player.data.get("colour") as PLAYER_COLOUR] +
+        (this.player.getData("state") === PLAYER_JUMP_STATE.JUMPED
+          ? "Jump"
+          : this.player.body.velocity.y > 10
+          ? "Fall"
+          : this.player.body.velocity.x !== 0
+          ? "Walk"
+          : "Stand"),
+      true
+    );
 
     this.cameras.main.centerOn(this.player.x, this.player.y);
   }
