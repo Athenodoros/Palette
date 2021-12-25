@@ -5,13 +5,17 @@ import {
   PLAYER_JUMP_STATE,
 } from "../types";
 import { OBJECT_GROUP_OBJECT, OBJECT_TYPE } from "./types";
+import { resetGemFrames } from "./utilities";
 
 export const getWorldObjects = (
   physics: Phaser.Physics.Arcade.ArcadePhysics,
   map: Phaser.Tilemaps.Tilemap
 ) => {
-  let player =
-    null as unknown as Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+  let player_details = null as {
+    colour: PLAYER_COLOUR;
+    x: number;
+    y: number;
+  } | null;
   const objects = Object.keys(OBJECT_TYPE).reduce(
     (acc, val) =>
       isNaN(+val) ? acc : { ...acc, [val]: physics.add.staticGroup() },
@@ -44,19 +48,11 @@ export const getWorldObjects = (
         entry.index = 0;
 
         if (type.type === OBJECT_TYPE.PLAYER) {
-          const colour = type.colour as PLAYER_COLOUR;
-
-          player = physics.add.sprite(
-            0,
-            0,
-            "player",
-            PLAYER_COLOURS[colour] + "_front.png"
-          );
-
-          player.setData({ colour, state: PLAYER_JUMP_STATE.BASE });
-          player.setX(entry.pixelX + map.tileWidth / 2 + 1);
-          player.setY(entry.pixelY + map.tileHeight - player.body.halfHeight);
-          player.setCollideWorldBounds(true);
+          player_details = {
+            colour: type.colour as PLAYER_COLOUR,
+            x: entry.pixelX,
+            y: entry.pixelY,
+          };
         } else {
           const game_object = objects[type.type].create(
             entry.pixelX + map.tileWidth / 2 + 1,
@@ -72,7 +68,27 @@ export const getWorldObjects = (
     })
   );
 
-  if (!player) throw new Error("No player created!");
+  if (player_details === null) {
+    throw new Error("No player created!");
+    return;
+  }
+
+  const player = physics.add.sprite(
+    0,
+    0,
+    "player",
+    PLAYER_COLOURS[player_details.colour] + "_front.png"
+  );
+  player.setData({
+    colour: player_details.colour,
+    state: PLAYER_JUMP_STATE.BASE,
+    stars: 0,
+  });
+  player.setX(player_details.x + map.tileWidth / 2 + 1);
+  player.setY(player_details.y + map.tileHeight - player.body.halfHeight);
+  player.setCollideWorldBounds(true);
+
+  resetGemFrames(player_details.colour, objects[OBJECT_TYPE.GEM]);
 
   return { objects, player };
 };
