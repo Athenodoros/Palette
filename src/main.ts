@@ -1,11 +1,8 @@
 import { Game, GameConfig } from "./game";
+import { LEVEL_SCENE_NAME } from "./game/types";
 import "./style.css";
 
-// const app = document.querySelector<HTMLDivElement>("#app")!;
+const game = new Game(GameConfig);
+game.scene.start(LEVEL_SCENE_NAME, { level: 2 });
 
-// app.innerHTML = `
-//   <h1>Hello Vite!</h1>
-//   <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-// `;
-
-(window as any).game = new Game(GameConfig);
+(window as any).game = game;

@@ -16,6 +16,8 @@ export const getWorldObjects = (
     x: number;
     y: number;
   } | null;
+  const keys = new Set<PLAYER_COLOUR>();
+
   const objects = Object.keys(OBJECT_TYPE).reduce(
     (acc, val) =>
       isNaN(+val) ? acc : { ...acc, [val]: physics.add.staticGroup() },
@@ -23,24 +25,29 @@ export const getWorldObjects = (
   ) as OBJECT_GROUP_OBJECT;
 
   // Loop through all data and replace with Game Objects
-  map.getLayer("items").data.forEach((row) =>
+  map.getLayer("level").data.forEach((row) =>
     row.forEach((entry) => {
       // index is 0 for empty tiles, or -1 for unspecified
       if (entry.index > 0) {
         // Get object details from rendered tile
-        const tileset =
-          map.tilesets[
-            (map.tilesets.findIndex(
-              (tileset) => tileset.firstgid > entry.index
-            ) || map.tilesets.length) - 1
-          ];
-        const index = entry.index - tileset.firstgid;
+        const tileset = findPreviousValueOrLast(
+          map.tilesets,
+          (t) => t.firstgid > entry.index
+        );
+
+        let index = entry.index - tileset.firstgid;
+        if (
+          REPLACEMENTS[tileset.name] &&
+          REPLACEMENTS[tileset.name][index] !== undefined
+        )
+          index = REPLACEMENTS[tileset.name][index];
+
         const type = ITEM_TYPES[tileset.name][index];
 
         // If not one of the interactible object types, skip processing
         if (!type) {
           if (!IGNORED_TILE_TYPES[tileset.name].includes(index))
-            throw new Error("Unexpected tile!");
+            throw new Error(`Unexpected tile: ${tileset.name}/${index}`);
           else return;
         }
 
@@ -62,7 +69,19 @@ export const getWorldObjects = (
           ) as Phaser.Types.Physics.Arcade.SpriteWithStaticBody;
           game_object.setData(type);
 
-          if (type.type === OBJECT_TYPE.PLATFORM) game_object.body.height = 1;
+          if (type.type === OBJECT_TYPE.PLATFORM) {
+            game_object.body.height = 1;
+            game_object.setData("colourA", game_object.getData("colour")); // Cache for buttons
+          }
+          if (type.type === OBJECT_TYPE.KEY)
+            keys.add(type.colour as PLAYER_COLOUR);
+          if (type.type === OBJECT_TYPE.BUTTON) {
+            game_object.setBounce(0.6);
+            game_object.body.height = 1;
+            game_object.body.width = 30;
+            game_object.body.x += 70 / 2 - 30 / 2;
+            game_object.body.y += 25;
+          }
         }
       }
     })
@@ -70,7 +89,6 @@ export const getWorldObjects = (
 
   if (player_details === null) {
     throw new Error("No player created!");
-    return;
   }
 
   const player = physics.add.sprite(
@@ -83,6 +101,8 @@ export const getWorldObjects = (
     colour: player_details.colour,
     state: PLAYER_JUMP_STATE.BASE,
     stars: 0,
+    allKeys: keys,
+    keys: new Set(),
   });
   player.setX(player_details.x + map.tileWidth / 2 + 1);
   player.setY(player_details.y + map.tileHeight - player.body.halfHeight);
@@ -93,8 +113,24 @@ export const getWorldObjects = (
   return { objects, player };
 };
 
+const findPreviousValueOrLast = <T>(
+  array: T[],
+  predicate: (t: T) => boolean
+) => {
+  const index = array.findIndex(predicate);
+  return array[(index === -1 ? array.length : index) - 1];
+};
+
 const IGNORED_TILE_TYPES: Record<string, number[]> = {
   tiles: [182],
+  items: [],
+};
+
+const REPLACEMENTS: Record<string, Record<number, number>> = {
+  tiles: {
+    40: 53,
+    42: 55,
+  },
 };
 
 const ITEM_TYPES: Record<
@@ -112,6 +148,36 @@ const ITEM_TYPES: Record<
   >
 > = {
   items: {
+    3: {
+      type: OBJECT_TYPE.BUTTON,
+      subtype: "up",
+      colour: COLOUR.BLUE,
+    },
+    4: {
+      type: OBJECT_TYPE.BUTTON,
+      subtype: "down",
+      colour: COLOUR.BLUE,
+    },
+    5: {
+      type: OBJECT_TYPE.BUTTON,
+      subtype: "up",
+      colour: COLOUR.GREEN,
+    },
+    6: {
+      type: OBJECT_TYPE.BUTTON,
+      subtype: "down",
+      colour: COLOUR.GREEN,
+    },
+    7: {
+      type: OBJECT_TYPE.BUTTON,
+      subtype: "up",
+      colour: COLOUR.RED,
+    },
+    9: {
+      type: OBJECT_TYPE.BUTTON,
+      subtype: "down",
+      colour: COLOUR.RED,
+    },
     20: {
       type: OBJECT_TYPE.FLAG,
       colour: COLOUR.BLUE,
@@ -135,6 +201,10 @@ const ITEM_TYPES: Record<
     29: {
       type: OBJECT_TYPE.PLAYER,
       colour: COLOUR.RED,
+    },
+    31: {
+      type: OBJECT_TYPE.FLAG,
+      colour: COLOUR.YELLOW,
     },
     38: {
       type: OBJECT_TYPE.GEM,
@@ -318,6 +388,21 @@ const ITEM_TYPES: Record<
       type: OBJECT_TYPE.PLATFORM,
       subtype: "end",
       colour: COLOUR.GREY,
+    },
+    105: {
+      type: OBJECT_TYPE.PLATFORM,
+      subtype: "start",
+      colour: COLOUR.GREEN,
+    },
+    107: {
+      type: OBJECT_TYPE.PLATFORM,
+      subtype: "end",
+      colour: COLOUR.GREEN,
+    },
+    116: {
+      type: OBJECT_TYPE.PLATFORM,
+      subtype: "center",
+      colour: COLOUR.GREEN,
     },
     128: {
       type: OBJECT_TYPE.LOCK,
