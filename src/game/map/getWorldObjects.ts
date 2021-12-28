@@ -1,5 +1,6 @@
 import {
   COLOUR,
+  DEBUG,
   PLAYER_COLOUR,
   PLAYER_COLOURS,
   PLAYER_JUMP_STATE,
@@ -68,6 +69,11 @@ export const getWorldObjects = (
             index
           ) as Phaser.Types.Physics.Arcade.SpriteWithStaticBody;
           game_object.setData(type);
+
+          if (DEBUG) {
+            game_object.setInteractive();
+            game_object.on("pointerdown", () => console.log(game_object));
+          }
 
           if (type.type === OBJECT_TYPE.PLATFORM) {
             game_object.body.height = 1;

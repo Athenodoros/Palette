@@ -1,4 +1,4 @@
-import { COLOUR, PLAYER_COLOUR } from "../types";
+import { COLOUR, PLAYER_COLOUR, PLAYER_JUMP_STATE } from "../types";
 import { OBJECT_GROUP_OBJECT, OBJECT_TYPE } from "./types";
 import { flipButton, resetGemFrames } from "./utilities";
 
@@ -12,13 +12,16 @@ export const addCollisionDefinitions = (
   physics.add.collider(
     player,
     objects[OBJECT_TYPE.PLATFORM],
-    undefined,
+    (_player) => {
+      _player.setData("state", PLAYER_JUMP_STATE.BASE);
+    },
     (_player, _platform) =>
       [COLOUR.GREY, _player.getData("colour")].includes(
         _platform.getData("colour")
       ) &&
-      (_player.body as any).prev.y + _player.body.height / 2 <=
-        _platform.body.top + 1
+      (_player.body as any).prev.y + _player.body.height <=
+        _platform.body.top + 2 &&
+      _player.body.y + _player.body.height >= _platform.body.top
   );
 
   // Wall Interactions
@@ -86,13 +89,17 @@ export const addCollisionDefinitions = (
     player,
     objects[OBJECT_TYPE.BUTTON],
     (_, _button) => {
+      _button.setData("time", new Date().getTime());
       flipButton(_button as Phaser.Types.Physics.Arcade.SpriteWithStaticBody);
     },
     (_player, _button) =>
+      (!_button.getData("time") ||
+        new Date().getTime() - _button.getData("time") >= 500) &&
       [COLOUR.GREY, _player.getData("colour")].includes(
         _button.getData("colour")
       ) &&
-      (_player.body as any).prev.y + _player.body.height / 2 <=
-        _button.body.top + 1
+      (_player.body as any).prev.y + _player.body.height <=
+        _button.body.top + 2 &&
+      _player.body.y + _player.body.height >= _button.body.top
   );
 };
