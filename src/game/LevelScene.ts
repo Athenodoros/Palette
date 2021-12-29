@@ -3,6 +3,7 @@ import {
   COLOUR,
   DEBUG,
   LEVEL_SCENE_NAME,
+  MAX_LEVEL,
   PLAYER_COLOUR,
   PLAYER_COLOURS,
   PLAYER_JUMP_STATE,
@@ -128,9 +129,10 @@ export class LevelScene extends Phaser.Scene {
     this.cameras.main.fadeIn(500, 0, 0, 0);
     this.cameras.main.once(
       Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-      () => {
-        this.scene.start(SWITCH_SCENE_NAME, { level: this.level + 1 });
-      }
+      () =>
+        this.level === MAX_LEVEL
+          ? this.scene.start(SWITCH_SCENE_NAME, { level: 1 })
+          : this.scene.start(SWITCH_SCENE_NAME, { level: this.level + 1 })
     );
 
     Object.assign(window, { player, map: this.map, scene: this });

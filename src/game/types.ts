@@ -21,7 +21,9 @@ export enum PLAYER_JUMP_STATE {
 
 export const LEVEL_SCENE_NAME = "LevelScene";
 export const SWITCH_SCENE_NAME = "SwitchScene";
+export const SPLASH_SCENE_NAME = "SplashScene";
 
 export const DEBUG = true;
 
 export const TILE_SIZE = 70;
+export const MAX_LEVEL = 4;
