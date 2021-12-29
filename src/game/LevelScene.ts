@@ -1,5 +1,6 @@
 import { addCollisionDefinitions, getWorldObjects } from "./map";
 import {
+  DEBUG,
   LEVEL_SCENE_NAME,
   PLAYER_COLOUR,
   PLAYER_COLOURS,
@@ -34,12 +35,16 @@ export class LevelScene extends Phaser.Scene {
     );
 
     this.load.spritesheet("items", "assets/packs/items.png", {
-      frameWidth: 72,
-      frameHeight: 72,
+      frameWidth: 70,
+      frameHeight: 70,
+      spacing: 2,
+      margin: 1,
     });
     this.load.spritesheet("tiles", "assets/packs/tiles.png", {
-      frameWidth: 72,
-      frameHeight: 72,
+      frameWidth: 70,
+      frameHeight: 70,
+      spacing: 2,
+      margin: 1,
     });
 
     this.load.atlas(
@@ -75,6 +80,16 @@ export class LevelScene extends Phaser.Scene {
         key: colour + "Fall",
         frames: [{ key: "player", frame: colour + "_walk03.png" }],
       });
+    });
+
+    this.anims.create({
+      key: "flagfall",
+      frames: [
+        { key: "items", frame: 30 },
+        { key: "items", frame: 32 },
+      ],
+      frameRate: 6,
+      repeat: 0,
     });
 
     this.map = this.make.tilemap({ key: "level" + this.level });
@@ -116,7 +131,7 @@ export class LevelScene extends Phaser.Scene {
   update(): void {
     if (
       this.cursors.up.isDown &&
-      this.player.getData("state") === PLAYER_JUMP_STATE.BASE
+      (this.player.getData("state") === PLAYER_JUMP_STATE.BASE || DEBUG)
     ) {
       this.player.setVelocityY(
         -800 - 150 * (this.player.getData("stars") as number)

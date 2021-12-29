@@ -1,5 +1,5 @@
 import * as Phaser from "phaser";
-import { COLOUR, PLAYER_COLOUR } from "../types";
+import { COLOUR, PLAYER_COLOUR, TILE_SIZE } from "../types";
 import { OBJECT_TYPE } from "./types";
 
 const GEM_FRAMES = {
@@ -78,13 +78,11 @@ export const flipButton = (
   button.body.y += (oldState === "up" ? 1 : -1) * 20;
 
   // Update Platform
-  const platform = button.scene.physics.world.staticBodies.entries.find(
-    (entry) =>
-      entry.gameObject.getData("type") === OBJECT_TYPE.PLATFORM &&
-      entry.top < button.y + button.height &&
-      entry.bottom > button.y &&
-      entry.left <= button.x &&
-      entry.right >= button.x
+  const platform = getObjectAt(
+    button.body.world,
+    button.x,
+    button.y + TILE_SIZE + 1 - (button.y % TILE_SIZE),
+    OBJECT_TYPE.PLATFORM
   );
 
   if (platform === undefined) throw new Error("Platform missing for button!");
@@ -94,22 +92,18 @@ export const flipButton = (
     const additions = [platform];
 
     while (true) {
-      const next = button.scene.physics.world.staticBodies.entries.find(
-        (entry) =>
-          entry.gameObject.getData("type") === OBJECT_TYPE.PLATFORM &&
-          entry.top === additions[0].top &&
-          entry.bottom === additions[0].bottom &&
-          entry.left === additions[0].left + (left ? -70 : 70) &&
-          entry.right === additions[0].right + (left ? -70 : 70)
+      const next = getObjectAtOffset(
+        additions[0],
+        left ? -1 : 1,
+        0,
+        OBJECT_TYPE.PLATFORM
       );
 
       if (
         next === undefined ||
-        next.gameObject.getData("colourA") !==
-          additions[0].gameObject.getData("colourA") ||
-        additions[0].gameObject.getData("subtype") ===
-          (left ? "start" : "end") ||
-        next.gameObject.getData("subtype") === (left ? "end" : "start")
+        next.getData("colourA") !== additions[0].getData("colourA") ||
+        additions[0].getData("subtype") === (left ? "start" : "end") ||
+        next.getData("subtype") === (left ? "end" : "start")
       )
         break;
       else additions.unshift(next);
@@ -121,10 +115,8 @@ export const flipButton = (
   }
 
   const platformColour =
-    newState === "up"
-      ? platform.gameObject.getData("colourA")
-      : button.getData("colour");
-  platforms.forEach(({ gameObject }) => {
+    newState === "up" ? platform.getData("colourA") : button.getData("colour");
+  platforms.forEach((gameObject) => {
     gameObject.setData("colour", platformColour);
     (gameObject as Phaser.Types.Physics.Arcade.SpriteWithStaticBody).setFrame(
       PLATFORM_FRAMES[platformColour as keyof typeof PLATFORM_FRAMES][
@@ -133,3 +125,55 @@ export const flipButton = (
     );
   });
 };
+
+export const activateFlag = (
+  flag: Phaser.Types.Physics.Arcade.SpriteWithStaticBody
+) => {
+  activateFlagObject(flag);
+
+  const connected =
+    getObjectAtOffset(flag, 0, 1, OBJECT_TYPE.FLAG) ||
+    getObjectAtOffset(flag, 0, -1, OBJECT_TYPE.FLAG);
+  if (connected) activateFlagObject(flag);
+};
+
+const activateFlagObject = (
+  flag: Phaser.Types.Physics.Arcade.SpriteWithStaticBody
+) => {
+  flag.play("flagfall");
+  flag.body.checkCollision.none = true;
+};
+
+const getObjectAtOffset = (
+  object: Phaser.Types.Physics.Arcade.SpriteWithStaticBody,
+  horizontal: number = 0,
+  vertical: number = 0,
+  type?: OBJECT_TYPE
+) => {
+  const { x, y } = getLocationWithOffset(object, horizontal, vertical);
+  return getObjectAt(object.body.world, x, y, type);
+};
+
+const getLocationWithOffset = (
+  object: Phaser.Types.Physics.Arcade.SpriteWithStaticBody,
+  horizontal: number = 0,
+  vertical: number = 0
+) => ({
+  x: object.body.x + horizontal * TILE_SIZE + 1,
+  y: object.body.y + vertical * TILE_SIZE + 1,
+});
+
+const getObjectAt = (
+  world: Phaser.Physics.Arcade.World,
+  x: number,
+  y: number,
+  type?: OBJECT_TYPE
+) =>
+  world.staticBodies.entries.find(
+    (entry) =>
+      (type === undefined || entry.gameObject.getData("type") === type) &&
+      entry.top <= y &&
+      entry.bottom >= y &&
+      entry.left <= x &&
+      entry.right >= x
+  )?.gameObject as Phaser.Types.Physics.Arcade.SpriteWithStaticBody;

@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 import { LevelScene } from "./LevelScene";
 import { SwitchScene } from "./SwitchScene";
+import { DEBUG } from "./types";
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -12,7 +13,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
     default: "arcade",
     arcade: {
       gravity: { y: 2000 },
-      debug: true,
+      debug: DEBUG,
     },
   },
 };

@@ -1,6 +1,6 @@
 import { COLOUR, PLAYER_COLOUR, PLAYER_JUMP_STATE } from "../types";
 import { OBJECT_GROUP_OBJECT, OBJECT_TYPE } from "./types";
-import { flipButton, resetGemFrames } from "./utilities";
+import { activateFlag, flipButton, resetGemFrames } from "./utilities";
 
 export const addCollisionDefinitions = (
   physics: Phaser.Physics.Arcade.ArcadePhysics,
@@ -21,7 +21,7 @@ export const addCollisionDefinitions = (
       ) &&
       (_player.body as any).prev.y + _player.body.height <=
         _platform.body.top + 2 &&
-      _player.body.y + _player.body.height >= _platform.body.top
+      _player.body.y + _player.body.height >= _platform.body.top - 2
   );
 
   // Wall Interactions
@@ -62,7 +62,7 @@ export const addCollisionDefinitions = (
     objects[OBJECT_TYPE.FLAG],
     (_, flag) => {
       transition();
-      flag.destroy();
+      activateFlag(flag as Phaser.Types.Physics.Arcade.SpriteWithStaticBody);
     },
     (_player, _flag) =>
       [_player.getData("colour"), COLOUR.YELLOW].includes(

@@ -23,3 +23,5 @@ export const LEVEL_SCENE_NAME = "LevelScene";
 export const SWITCH_SCENE_NAME = "SwitchScene";
 
 export const DEBUG = true;
+
+export const TILE_SIZE = 70;
