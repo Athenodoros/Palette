@@ -140,7 +140,7 @@ export const activateFlag = (
 const activateFlagObject = (
   flag: Phaser.Types.Physics.Arcade.SpriteWithStaticBody
 ) => {
-  flag.play("flagfall");
+  flag.play("flagfall" + flag.getData("colour"));
   flag.body.checkCollision.none = true;
 };
 

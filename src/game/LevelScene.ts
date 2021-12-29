@@ -1,5 +1,6 @@
 import { addCollisionDefinitions, getWorldObjects } from "./map";
 import {
+  COLOUR,
   DEBUG,
   LEVEL_SCENE_NAME,
   PLAYER_COLOUR,
@@ -82,15 +83,22 @@ export class LevelScene extends Phaser.Scene {
       });
     });
 
-    this.anims.create({
-      key: "flagfall",
-      frames: [
-        { key: "items", frame: 30 },
-        { key: "items", frame: 32 },
-      ],
-      frameRate: 6,
-      repeat: 0,
-    });
+    [
+      { colour: COLOUR.BLUE, mid: 19, down: 21 },
+      { colour: COLOUR.GREEN, mid: 22, down: 24 },
+      { colour: COLOUR.RED, mid: 27, down: 29 },
+      { colour: COLOUR.YELLOW, mid: 30, down: 32 },
+    ].forEach(({ colour, mid, down }) =>
+      this.anims.create({
+        key: "flagfall" + colour,
+        frames: [
+          { key: "items", frame: mid },
+          { key: "items", frame: down },
+        ],
+        frameRate: 6,
+        repeat: 0,
+      })
+    );
 
     this.map = this.make.tilemap({ key: "level" + this.level });
     const width = this.map.widthInPixels;
