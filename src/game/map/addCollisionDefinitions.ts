@@ -74,7 +74,10 @@ export const addCollisionDefinitions = (
   physics.add.collider(
     player,
     objects[OBJECT_TYPE.LOCK],
-    undefined,
+    (_player, _lock) => {
+      if (_player.body.bottom === _lock.body.top)
+        _player.setData("state", PLAYER_JUMP_STATE.BASE);
+    },
     (_player, _lock) =>
       [_lock.getData("colourA"), _lock.getData("colourB")].includes(
         _player.getData("colour")
