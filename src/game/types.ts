@@ -20,7 +20,6 @@ export enum PLAYER_JUMP_STATE {
 }
 
 export const LEVEL_SCENE_NAME = "LevelScene";
-export const SWITCH_SCENE_NAME = "SwitchScene";
 export const SPLASH_SCENE_NAME = "SplashScene";
 
 export const DEBUG = false;

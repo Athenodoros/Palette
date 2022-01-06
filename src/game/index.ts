@@ -1,7 +1,6 @@
 import * as Phaser from "phaser";
 import { LevelScene } from "./LevelScene";
 import { SplashScene } from "./SplashScene";
-import { SwitchScene } from "./SwitchScene";
 import { DEBUG } from "./types";
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
@@ -9,7 +8,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
   width: 800,
   height: 600,
   parent: "app",
-  scene: [SplashScene, LevelScene, SwitchScene],
+  scene: [SplashScene, LevelScene],
   physics: {
     default: "arcade",
     arcade: {

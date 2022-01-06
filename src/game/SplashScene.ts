@@ -1,4 +1,4 @@
-import { SPLASH_SCENE_NAME, SWITCH_SCENE_NAME } from "./types";
+import { LEVEL_SCENE_NAME, SPLASH_SCENE_NAME } from "./types";
 
 export class SplashScene extends Phaser.Scene {
   public started: boolean = false;
@@ -24,7 +24,7 @@ export class SplashScene extends Phaser.Scene {
     this.cameras.main.fadeIn(500, 0, 0, 0);
     this.cameras.main.once(
       Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-      () => this.scene.start(SWITCH_SCENE_NAME, { level: 1 })
+      () => this.scene.start(LEVEL_SCENE_NAME, { level: 1 })
     );
   }
 
