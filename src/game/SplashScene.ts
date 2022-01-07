@@ -18,16 +18,21 @@ export class SplashScene extends Phaser.Scene {
       this.cameras.main.displayHeight / 2,
       "splash"
     );
+    const text = this.add.text(
+      this.cameras.main.displayWidth * 0.5,
+      this.cameras.main.displayHeight * 0.77,
+      "PRESS START",
+      { fontSize: "24px" }
+    );
+    text.x -= text.width / 2;
+    flashTextOpacity(text);
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
     this.cameras.main.once(
       Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
-      () => {
-        this.scene.start(LEVEL_SCENE_NAME, { level: 1 });
-        // this.scene.start(HUD_SCENE_NAME);
-      }
+      () => this.scene.start(LEVEL_SCENE_NAME, { level: 1 })
     );
   }
 
@@ -46,3 +51,35 @@ export class SplashScene extends Phaser.Scene {
   //     this.scene.start(LEVEL_SCENE_NAME, { level: this.level });
   //   }
 }
+
+const flashTextOpacity = (text: Phaser.GameObjects.Text) => {
+  text.scene.tweens.timeline({
+    tweens: [
+      {
+        targets: text,
+        duration: 0,
+        alpha: 0,
+        ease: "Linear",
+      },
+      {
+        targets: text,
+        duration: 500,
+        alpha: 1,
+        ease: "Linear",
+      },
+      {
+        targets: text,
+        duration: 500,
+        alpha: 1,
+        ease: "Linear",
+      },
+      {
+        targets: text,
+        duration: 500,
+        alpha: 0,
+        ease: "Linear",
+        onComplete: () => flashTextOpacity(text),
+      },
+    ],
+  });
+};
