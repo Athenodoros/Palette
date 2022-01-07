@@ -1,6 +1,6 @@
+import { DEBUG } from "../constants";
 import {
   COLOUR,
-  DEBUG,
   PLAYER_COLOUR,
   PLAYER_COLOURS,
   PLAYER_JUMP_STATE,

@@ -1,16 +1,18 @@
-import { HUDScene } from "./HUDScene";
-import { addCollisionDefinitions, getWorldObjects } from "./map";
 import {
-  COLOUR,
   DEBUG,
   HEIGHT,
   HUD_SCENE_NAME,
   LEVEL_SCENE_NAME,
   MAX_LEVEL,
+  WIDTH,
+} from "./constants";
+import { HUDScene } from "./HUDScene";
+import { addCollisionDefinitions, getWorldObjects } from "./map";
+import {
+  COLOUR,
   PLAYER_COLOUR,
   PLAYER_COLOURS,
   PLAYER_JUMP_STATE,
-  WIDTH,
 } from "./types";
 
 export class LevelScene extends Phaser.Scene {

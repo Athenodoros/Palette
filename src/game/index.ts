@@ -1,8 +1,8 @@
 import * as Phaser from "phaser";
+import { DEBUG, HEIGHT, WIDTH } from "./constants";
 import { HUDScene } from "./HUDScene";
 import { LevelScene } from "./LevelScene";
 import { SplashScene } from "./SplashScene";
-import { DEBUG, HEIGHT, WIDTH } from "./types";
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
