@@ -1,6 +1,11 @@
-import { HUDScene } from "../HUDScene";
-import { COLOUR, PLAYER_COLOUR, PLAYER_JUMP_STATE } from "../types";
-import { OBJECT_GROUP_OBJECT, OBJECT_TYPE } from "./types";
+import { HUDScene } from "../scenes/HUDScene";
+import {
+  COLOUR,
+  OBJECT_GROUP_OBJECT,
+  OBJECT_TYPE,
+  PLAYER_COLOUR,
+  PLAYER_JUMP_STATE,
+} from "../types";
 import { activateFlag, flipButton, resetGemFrames } from "./utilities";
 
 export const addCollisionDefinitions = (

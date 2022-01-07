@@ -1,7 +1,6 @@
 import * as Phaser from "phaser";
 import { TILE_SIZE } from "../constants";
-import { COLOUR, PLAYER_COLOUR } from "../types";
-import { OBJECT_TYPE } from "./types";
+import { COLOUR, OBJECT_TYPE, PLAYER_COLOUR } from "../types";
 
 const GEM_FRAMES = {
   [COLOUR.BLUE]: {

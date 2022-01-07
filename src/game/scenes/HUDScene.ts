@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
-import { HEIGHT, HUD_SCENE_NAME, WIDTH } from "./constants";
-import { COLOUR, PLAYER_COLOUR, PLAYER_COLOURS } from "./types";
+import { HEIGHT, HUD_SCENE_NAME, WIDTH } from "../constants";
+import { COLOUR, PLAYER_COLOUR, PLAYER_COLOURS } from "../types";
 
 interface LevelState {
   colour: PLAYER_COLOUR;

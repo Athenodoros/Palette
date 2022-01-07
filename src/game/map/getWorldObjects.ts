@@ -1,11 +1,12 @@
 import { DEBUG } from "../constants";
 import {
   COLOUR,
+  OBJECT_GROUP_OBJECT,
+  OBJECT_TYPE,
   PLAYER_COLOUR,
   PLAYER_COLOURS,
   PLAYER_JUMP_STATE,
 } from "../types";
-import { OBJECT_GROUP_OBJECT, OBJECT_TYPE } from "./types";
 import { resetGemFrames } from "./utilities";
 
 export const getWorldObjects = (

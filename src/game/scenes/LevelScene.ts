@@ -5,15 +5,15 @@ import {
   LEVEL_SCENE_NAME,
   MAX_LEVEL,
   WIDTH,
-} from "./constants";
-import { HUDScene } from "./HUDScene";
-import { addCollisionDefinitions, getWorldObjects } from "./map";
+} from "../constants";
+import { addCollisionDefinitions, getWorldObjects } from "../map";
 import {
   COLOUR,
   PLAYER_COLOUR,
   PLAYER_COLOURS,
   PLAYER_JUMP_STATE,
-} from "./types";
+} from "../types";
+import { HUDScene } from "./HUDScene";
 
 export class LevelScene extends Phaser.Scene {
   public map!: Phaser.Tilemaps.Tilemap;

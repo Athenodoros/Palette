@@ -1,4 +1,4 @@
-import { LEVEL_SCENE_NAME, SPLASH_SCENE_NAME } from "./constants";
+import { LEVEL_SCENE_NAME, SPLASH_SCENE_NAME } from "../constants";
 
 export class SplashScene extends Phaser.Scene {
   public started: boolean = false;
