@@ -1,12 +1,16 @@
+import { HUDScene } from "./HUDScene";
 import { addCollisionDefinitions, getWorldObjects } from "./map";
 import {
   COLOUR,
   DEBUG,
+  HEIGHT,
+  HUD_SCENE_NAME,
   LEVEL_SCENE_NAME,
   MAX_LEVEL,
   PLAYER_COLOUR,
   PLAYER_COLOURS,
   PLAYER_JUMP_STATE,
+  WIDTH,
 } from "./types";
 
 export class LevelScene extends Phaser.Scene {
@@ -110,14 +114,30 @@ export class LevelScene extends Phaser.Scene {
       this.map.addTilesetImage("tiles"),
     ]);
 
-    const { objects, player } = getWorldObjects(this.physics, this.map);
+    const {
+      objects,
+      player,
+      hud: hudArgs,
+    } = getWorldObjects(this.physics, this.map);
+
+    this.scene.run(HUD_SCENE_NAME, hudArgs);
     this.player = player;
-    addCollisionDefinitions(this.physics, player, objects, () =>
-      this.cameras.main.fadeOut(500, 0, 0, 0)
+
+    addCollisionDefinitions(
+      this.physics,
+      player,
+      objects,
+      this.scene.get(HUD_SCENE_NAME) as HUDScene,
+      () => this.cameras.main.fadeOut(500, 0, 0, 0)
     );
 
-    this.cameras.cameras[0].setZoom(0.7);
-    this.cameras.main.setBounds(0, 0, width, height);
+    this.cameras.cameras[0].setZoom(0.6);
+    this.cameras.main.setBounds(
+      -WIDTH / 8,
+      -HEIGHT / 8,
+      width + WIDTH / 4,
+      height + HEIGHT / 4
+    );
     this.cameras.main.centerOn(player.x, player.y);
 
     this.cursors = this.input.keyboard.createCursorKeys();

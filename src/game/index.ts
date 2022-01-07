@@ -1,14 +1,15 @@
 import * as Phaser from "phaser";
+import { HUDScene } from "./HUDScene";
 import { LevelScene } from "./LevelScene";
 import { SplashScene } from "./SplashScene";
-import { DEBUG } from "./types";
+import { DEBUG, HEIGHT, WIDTH } from "./types";
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  width: WIDTH,
+  height: HEIGHT,
   parent: "app",
-  scene: [SplashScene, LevelScene],
+  scene: [SplashScene, LevelScene, HUDScene],
   physics: {
     default: "arcade",
     arcade: {

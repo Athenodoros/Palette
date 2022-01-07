@@ -1,3 +1,4 @@
+import { HUDScene } from "../HUDScene";
 import { COLOUR, PLAYER_COLOUR, PLAYER_JUMP_STATE } from "../types";
 import { OBJECT_GROUP_OBJECT, OBJECT_TYPE } from "./types";
 import { activateFlag, flipButton, resetGemFrames } from "./utilities";
@@ -6,6 +7,7 @@ export const addCollisionDefinitions = (
   physics: Phaser.Physics.Arcade.ArcadePhysics,
   player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody,
   objects: OBJECT_GROUP_OBJECT,
+  hud: HUDScene,
   transition: () => void
 ) => {
   // Platform Collisions
@@ -30,6 +32,7 @@ export const addCollisionDefinitions = (
   // Star Pickups
   physics.add.overlap(player, objects[OBJECT_TYPE.STAR], (_player, star) => {
     _player.data.values.stars += 1;
+    hud.addStar();
     star.destroy();
   });
 
@@ -37,6 +40,7 @@ export const addCollisionDefinitions = (
   physics.add.overlap(player, objects[OBJECT_TYPE.GEM], (_player, gem) => {
     const colour = gem.data.get("colour") as PLAYER_COLOUR;
     _player.data.set("colour", colour);
+    hud.changeColour(colour);
     resetGemFrames(colour, objects[OBJECT_TYPE.GEM]);
   });
 
@@ -48,6 +52,7 @@ export const addCollisionDefinitions = (
       (_player.data.values.keys as Set<PLAYER_COLOUR>).add(
         _key.getData("colour")
       );
+      hud.addKey(_key.getData("colour"));
       _key.destroy();
     },
     (_player, _key) =>

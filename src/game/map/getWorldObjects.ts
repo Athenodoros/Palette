@@ -17,7 +17,7 @@ export const getWorldObjects = (
     x: number;
     y: number;
   } | null;
-  const keys = new Set<PLAYER_COLOUR>();
+  const keys: PLAYER_COLOUR[] = [];
 
   const objects = Object.keys(OBJECT_TYPE).reduce(
     (acc, val) =>
@@ -80,7 +80,7 @@ export const getWorldObjects = (
             game_object.setData("colourA", game_object.getData("colour")); // Cache for buttons
           }
           if (type.type === OBJECT_TYPE.KEY)
-            keys.add(type.colour as PLAYER_COLOUR);
+            keys.push(type.colour as PLAYER_COLOUR);
           if (type.type === OBJECT_TYPE.BUTTON) {
             game_object.setBounce(0.6);
             game_object.body.height = 1;
@@ -107,7 +107,6 @@ export const getWorldObjects = (
     colour: player_details.colour,
     state: PLAYER_JUMP_STATE.BASE,
     stars: 0,
-    allKeys: keys,
     keys: new Set(),
   });
   player.setX(player_details.x + map.tileWidth / 2 + 1);
@@ -116,7 +115,7 @@ export const getWorldObjects = (
 
   resetGemFrames(player_details.colour, objects[OBJECT_TYPE.GEM]);
 
-  return { objects, player };
+  return { objects, player, hud: { colour: player_details.colour, keys } };
 };
 
 const findPreviousValueOrLast = <T>(
