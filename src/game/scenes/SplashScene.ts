@@ -21,7 +21,7 @@ export class SplashScene extends Phaser.Scene {
     const text = this.add.text(
       this.cameras.main.displayWidth * 0.5,
       this.cameras.main.displayHeight * 0.77,
-      "PRESS START",
+      "PRESS SPACE",
       { fontSize: "24px" }
     );
     text.x -= text.width / 2;
