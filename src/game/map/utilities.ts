@@ -134,7 +134,7 @@ export const activateFlag = (
   const connected =
     getObjectAtOffset(flag, 0, 1, OBJECT_TYPE.FLAG) ||
     getObjectAtOffset(flag, 0, -1, OBJECT_TYPE.FLAG);
-  if (connected) activateFlagObject(flag);
+  if (connected) activateFlagObject(connected);
 };
 
 const activateFlagObject = (
