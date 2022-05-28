@@ -1,0 +1,19 @@
+172.00
+300.00
+
+Green Rotate:
+110.00
+125.00
+
+Blue Rotate:
+190.00
+200.00
+
+Red Rotate:
+20.00
+25.00
+
+0) Select Purple (35 threshold with magic wand)
+1) Colour Rotate
+2) Lock Alpha
+3) Replace with darkest gem colour (5.0 threshold with bucket)
